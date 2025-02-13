@@ -18,7 +18,7 @@ The server only supports the HTTP GET method at the moment. When a GET request i
 
 ## Setup Instructions
 
-## Running with Docker Compose
+### Running with Docker Compose
 
 To run the Deno server using Docker Compose, you'll need to create a Dockerfile for the server. Below is the [Dockerfile](Dockerfile) for the our server:
 
