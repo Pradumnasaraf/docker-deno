@@ -1,110 +1,70 @@
-## 🎯 A Template for building Docker Guides' Samples Apps
+## Deno API
 
-1. [Sample README Content](#sample-readme-content)
-   - [Project Title](#project-title)
-   - [Project Structure](#project-structure)
-   - [Setup Instructions](#setup-instructions)
-   - [Configuration](#configuration)  
-2. [Backlinks](#backlinks)
-3. [Maintenance Schedule](#maintenance-schedule)
-4. [License](#license)
-5. [Contributing](#contributing)
+A simple HTTP server build with TypeScript and Deno as a runtime to serve a simple JSON response. This is for Docker's [Deno Language Guide](https://docs.docker.com/guides/deno/).
 
+The server only supports the HTTP GET method at the moment. When a GET request is received, the server responds with a JSON object:
 
-This page outlines the requirements for code repositories in the `dockersamples` organization. These repositories are meant to support Docker guides and blogs at this point.
-
-If you have any questions, please contact `#docs` on the [Docker Community Slack](https://communityinviter.com/apps/dockercommunity/docker-community).
-
-### PLEASE REMOVE THIS SECTION ONCE YOU CLONE THIS REPO
-
-This section provides instructions for using the template. Please remove this "Samples Repo Templates for Docker Guides" section from the README file after cloning the repository to ensure your guide is clean and tailored to your specific application.
-
-### For a new repository
-
-
-1. Select **Use this template** and choose **Create a new repository**.
-
-<img width="1144" alt="image" src="https://github.com/user-attachments/assets/d27634f1-1f7e-4e77-bc60-25122467e805">
-
----
-
-
-2. Select **dockersamples/docker-guides-template** under Repository Template, select your repository, populate description and choose your preferred repository name.
-
-<img width="725" alt="image" src="https://github.com/user-attachments/assets/8fbc6a38-f6ab-4442-b0ad-51ad01794016">
-
----
-
-3. Select **Create repository**. Don't forget to populate **About** section with a short description of the project once you create the repository.
-
-### For an existing repository
-
-If you already have an existing repository, copy the appropriate files from this repo into your own. The key files are `CONTRIBUTING.md`, `LICENSE`, and `README.md`
-
-
-## Sample README Content
-
-The README.md describes the purpose of the repository, setup instructions, and related resources. 
-
-## Project Title
-
-This repo contains the sample application for developing applications and the Docker guide on Docker Docs. While this project is written primarily in Node/Rust/Java, the focus is on launching and using tool in development and the tool-related pieces can easily be adapted into any other language.
-
-Notice: This sample repo is intended to support the guide mentioned above. As such, the application code is purposely kept simple to keep the focus on the guide's content and should not be considered production-ready.
+```json
+{
+    "message": "OK"
+}
+```
 
 ## Project Structure
-[Describe the directory structure of the project repository]
 
-- **app/** - The main "app" of the project. It listens to events on a Kafka topic and logs them.
-- **frontend/** - Contains the frontend part of the application.
-- **backend/** - Contains the backend part of the application.
-- **database/** - Contains database configuration and scripts.
+**server.js** - The main application file. This file contains the main server code for the application.
+**Dockerfile** - The Dockerfile for building the application image.
+**compose.yml** - The Docker Compose file for running the application.
 
 ## Setup Instructions
 
-[Provide clear setup instructions here]
+## Running with Docker Compose
 
+To run the Deno server using Docker Compose, you'll need to create a Dockerfile for the server. Below is the [Dockerfile](Dockerfile) for the our server:
 
-### 1. Clone the repository
+```Dockerfile
+# Use the official Deno image
+FROM denoland/deno:latest
 
- ```bash
-   git clone https://github.com/your-org/sample-repo.git
- ```
+# Set the working directory
+WORKDIR /app
 
+# Copy server code into the container
+COPY server.ts .
 
-### 2. Navigate to the project directory:
+# Set permissions (optional but recommended for security)
+USER deno
 
-```
-cd sample-repo
-```
+# Expose port 8000
+EXPOSE 8000
 
-## Configuration
-This project requires the following environment variables:
-- `DATABASE_URL` - The URL of the database.
-- `API_KEY` - API key for third-party services.
-
-Create a `.env` file in the root directory to define these variables.
-
-### 3. Install dependencies for the app, frontend, and backend:
-
-```
-cd app && npm install
-cd ../frontend && npm install
-cd ../backend && npm install
+# Run the Deno server
+CMD ["run", "--allow-net", "server.ts"]
 ```
 
-### 4. Start the application:
+To run this application using Docker Compose, you'll need to create a `compose.yml` file. Here's the `compose.yml` file:
 
-```
-npm start
+```yaml
+services:
+  server:
+    image: deno-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
 ```
 
+To build and run the Docker image using Docker Compose, use the following command:
+
+```bash
+docker compose up
+```
+
+This will build the Docker image and then run it, mapping the container's port 8000 to port 8000 on the host machine. You can then access the API by visiting `http://localhost:8000` in your web browser.
 
 ## Backlinks
-For more information, check the related [blog post](link) or [use case guide](https://docs.docker.com/guides/use-case/kafka/).
-
-## Maintenance Schedule
-This repo is maintained [frequency]. For any security updates, note that there may be delays in applying recent fixes.
+For more information, check the related [blog post](link) or [use case guide](https://docs.docker.com/guides/deno).
 
 ## License
 This project is licensed under the [Apache 2.0 License](/LICENSE).

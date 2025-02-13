@@ -1,10 +1,12 @@
-
-# This is a placeholder Compose file. 
-# Modify it as per your sample app.
-
 services:
-  app:
-    build: ./
+  server:
+    image: deno-server
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
-
+      - "8000:8000"
+    develop:
+      watch:
+        - action: rebuild
+          path: .
