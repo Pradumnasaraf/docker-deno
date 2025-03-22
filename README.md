@@ -12,9 +12,9 @@ The server only supports the HTTP GET method at the moment. When a GET request i
 
 ## Project Structure
 
-**server.js** - The main application file. This file contains the main server code for the application.
-**Dockerfile** - The Dockerfile for building the application image.
-**compose.yml** - The Docker Compose file for running the application.
+- **server.js** - The main application file. This file contains the main server code for the application.
+- **Dockerfile** - The Dockerfile for building the application image.
+- **compose.yml** - The Docker Compose file for running the application.
 
 ## Setup Instructions
 
