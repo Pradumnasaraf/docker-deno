@@ -64,7 +64,7 @@ docker compose up
 This will build the Docker image and then run it, mapping the container's port 8000 to port 8000 on the host machine. You can then access the API by visiting `http://localhost:8000` in your web browser.
 
 ## Backlinks
-For more information, check the related [blog post](link) or [use case guide](https://docs.docker.com/guides/deno).
+For more information, check the related [use case guide](https://docs.docker.com/guides/deno).
 
 ## License
 This project is licensed under the [Apache 2.0 License](/LICENSE).
